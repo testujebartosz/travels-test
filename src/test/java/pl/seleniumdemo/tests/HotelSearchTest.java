@@ -5,6 +5,7 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import pl.seleniumdemo.pages.HotelSearchPage;
+import pl.seleniumdemo.pages.ResultsPage;
 
 import java.util.List;
 
@@ -14,8 +15,34 @@ public class HotelSearchTest extends BaseTest {
         HotelSearchPage hotelSearchPage = new HotelSearchPage(driver);
         hotelSearchPage.setCityName("Dubai");
         hotelSearchPage.setDates("27/04/2023", "01/05/2023");
-        hotelSearchPage.setTravellers();
+        hotelSearchPage.setTravellers(1, 2);
         hotelSearchPage.performSearch();
+
+        ResultsPage resultsPage = new ResultsPage(driver);
+        resultsPage.getHotelNames();
+        List<String> hotelNames = resultsPage.getHotelNames();
+
+        hotelNames.forEach(System.out::println);
+
+        Assert.assertEquals("Jumeirah Beach Hotel", hotelNames.get(0));
+        Assert.assertEquals("Oasis Beach Tower", hotelNames.get(1));
+        Assert.assertEquals("Rose Rayhaan Rotana", hotelNames.get(2));
+        Assert.assertEquals("Hyatt Regency Perth", hotelNames.get(3));
+    }
+
+    @Test
+    public void searchHotelWithoutNameTesT() {
+
+        HotelSearchPage hotelSearchPage = new HotelSearchPage(driver);
+        hotelSearchPage.setDates("27/04/2023", "01/05/2023");
+        hotelSearchPage.setTravellers(0, 1);
+        hotelSearchPage.performSearch();
+
+        ResultsPage resultsPage = new ResultsPage(driver);
+        final var headingText = resultsPage.getHeadingText();
+
+        Assert.assertTrue(resultsPage.getResultHeading().isDisplayed());
+        Assert.assertEquals(headingText, "No Results Found");
     }
 
     @Test
