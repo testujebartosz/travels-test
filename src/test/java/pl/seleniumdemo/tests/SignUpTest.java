@@ -1,26 +1,21 @@
+package pl.seleniumdemo.tests;
+
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+import pl.seleniumdemo.tests.BaseTest;
 
 import java.time.Duration;
 import java.util.List;
 
-public class SignUpTest {
-
-    private WebDriver driver;
+public class SignUpTest extends BaseTest {
 
     @Test
     public void signUp() {
-        driver = ReUsable.getDriver("chrome");
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-        driver.get("http://www.kurs-selenium.pl/demo/");
-
         final String lastName = "Testowy";
         int randomNumber = (int) (Math.random() * 1000);
         final String email = "tester" + randomNumber + "@xd.pl";
@@ -45,16 +40,10 @@ public class SignUpTest {
         WebElement heading = driver.findElement(By.xpath("//h3[@class='RTL']"));
         Assert.assertTrue(heading.getText().contains(lastName));
         Assert.assertEquals(heading.getText(), "Hi, Bartosz Testowy");
-
     }
 
     @Test
     public void signUpWithoutProvidingAnyValues() {
-        driver = ReUsable.getDriver("chrome");
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-        driver.get("http://www.kurs-selenium.pl/demo/");
-
         driver.findElements(By.xpath("//li[@id='li_myaccount']"))
                 .stream()
                 .filter(WebElement::isDisplayed)
@@ -88,18 +77,10 @@ public class SignUpTest {
         Assert.assertEquals(passwordErrorMsg.getText(), "The Password field is required.");
         Assert.assertEquals(firstNameErrorMsg.getText(), "The First name field is required.");
         Assert.assertEquals(lastNameErrorMsg.getText(), "The Last Name field is required.");
-
-        driver.quit();
-
     }
 
     @Test
     public void signUpWithInvalidEmail() {
-        driver = ReUsable.getDriver("chrome");
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-        driver.get("http://www.kurs-selenium.pl/demo/");
-
         final String lastName = "Testowy";
         driver.findElements(By.xpath("//li[@id='li_myaccount']"))
                 .stream()
@@ -119,7 +100,5 @@ public class SignUpTest {
 
         WebElement emailInvalidMsg = driver.findElement(By.xpath("//p[text()='The Email field must contain a valid email address.']"));
         Assert.assertEquals(emailInvalidMsg.getText(), "The Email field must contain a valid email address.");
-
-        driver.quit();
     }
 }
