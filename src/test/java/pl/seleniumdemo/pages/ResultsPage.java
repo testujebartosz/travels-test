@@ -24,13 +24,8 @@ public class ResultsPage {
                 .map(el -> el.getAttribute("textContent"))
                 .toList();
     }
-
-    public String getHeadingText() {
+    public String getResultHeadingText() {
         return resultHeading.getText();
-    }
-
-    public WebElement getResultHeading() {
-        return resultHeading;
     }
 
 
