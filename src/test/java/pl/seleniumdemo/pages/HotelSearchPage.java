@@ -6,6 +6,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import java.util.List;
+
 public class HotelSearchPage {
 
     @FindBy(xpath = "//span[text()='Search by Hotel or City Name']")
@@ -32,38 +34,58 @@ public class HotelSearchPage {
     @FindBy(xpath = "//button[text()=' Search']")
     private WebElement searchBtn;
 
-    private WebDriver driver;
+    @FindBy(xpath = "//li[@id='li_myaccount']")
+    private List<WebElement> myAccountLink;
+
+    @FindBy(xpath = "//a[text()='  Sign Up']")
+    private List<WebElement> signUpLink;
+
+    private final WebDriver driver;
 
     public HotelSearchPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
         this.driver = driver;
     }
 
-    public void setCityName(final String cityName) {
+    public HotelSearchPage setCityName(final String cityName) {
         searchHotelSpan.click();
         searchHotelInput.sendKeys(cityName);
         final String xpath = String.format("//span[@class='select2-match' and text()='%s']", cityName);
         driver.findElement(By.xpath(xpath)).click();
+        //zwracamy obiekt tej klasy
+        return this;
     }
 
-    public void setDates(final String checkIn, final String checkOut) {
+    public HotelSearchPage setDates(final String checkIn, final String checkOut) {
         checkInInput.sendKeys(checkIn);
         checkOutInput.sendKeys(checkOut);
+        return this;
     }
 
-    public void setTravellers(final int adultsToAdd, final int childToAdd) {
+    public HotelSearchPage setTravellers(final int adultsToAdd, final int childToAdd) {
         travellersInput.click();
         addTraveler(adultPlusBtn, adultsToAdd);
         addTraveler(childPlusBtn, childToAdd);
+        return this;
+    }
+
+    public ResultsPage performSearch() {
+        searchBtn.click();
+        return new ResultsPage(driver);
+    }
+
+    public SignUpPage openSignUpForm() {
+        myAccountLink.stream()
+                .filter(WebElement::isDisplayed)
+                .findFirst()
+                .ifPresent(WebElement::click);
+        signUpLink.get(1).click();
+        return new SignUpPage(driver);
     }
 
     private void addTraveler(WebElement travelerBtn, final int numberOfTravels) {
         for (int i = 0; i < numberOfTravels; i++) {
             travelerBtn.click();
         }
-    }
-
-    public void performSearch() {
-        searchBtn.click();
     }
 }
