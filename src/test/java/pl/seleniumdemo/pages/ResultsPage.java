@@ -20,9 +20,7 @@ public class ResultsPage {
     }
 
     public List<String> getHotelNames() {
-        return hotelList.stream()
-                .map(el -> el.getAttribute("textContent"))
-                .toList();
+        return hotelList.stream().map(el -> el.getAttribute("textContent")).toList();
     }
 
     public String getHeadingText() {
@@ -32,6 +30,5 @@ public class ResultsPage {
     public WebElement getResultHeading() {
         return resultHeading;
     }
-
 
 }
