@@ -24,9 +24,8 @@ public class ResultsPage {
                 .map(el -> el.getAttribute("textContent"))
                 .toList();
     }
+
     public String getResultHeadingText() {
         return resultHeading.getText();
     }
-
-
 }

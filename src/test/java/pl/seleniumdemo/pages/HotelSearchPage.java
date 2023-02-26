@@ -70,6 +70,7 @@ public class HotelSearchPage {
             travelerBtn.click();
         }
     }
+
     public void performSearch() {
         searchBtn.click();
     }
