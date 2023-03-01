@@ -1,10 +1,9 @@
 package pl.seleniumdemo.tests;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import utils.DriverFactory;
 
 import java.time.Duration;
 
@@ -14,10 +13,9 @@ public class BaseTest {
 
     @BeforeMethod
     public void setUp() {
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("start=maximized");
-        driver = new ChromeDriver();
+        driver = DriverFactory.getDriver("chrome");
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        driver.manage().window().maximize();
         driver.get("http://www.kurs-selenium.pl/demo/");
     }
 
