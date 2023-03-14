@@ -5,16 +5,15 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import utils.DriverFactory;
 
-import java.time.Duration;
+import java.io.IOException;
 
 public class BaseTest {
 
     public static WebDriver driver;
 
     @BeforeMethod
-    public void setUp() {
+    public void setUp() throws IOException {
         driver = DriverFactory.getDriver("chrome");
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         driver.manage().window().maximize();
         driver.get("http://www.kurs-selenium.pl/demo/");
     }
