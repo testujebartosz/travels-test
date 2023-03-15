@@ -19,7 +19,6 @@ public class DriverFactory {
             case "chrome":
                 ChromeOptions options = new ChromeOptions();
                 options.addArguments("--remote-allow-origins=*");
-
                 return new ChromeDriver(options);
             case "safari":
                 return new SafariDriver();
